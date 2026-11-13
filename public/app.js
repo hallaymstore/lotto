@@ -10,7 +10,21 @@ const signalKey = 'omad-studio-spin';
 const turn = Math.PI * 2;
 const startAngle = -Math.PI / 2;
 const colorSectors = ['#b22d48','#285abb','#21835a','#a27612','#7929a5','#af581e'];
-const palette = ['#652857','#342056','#912f42','#174c67','#6b3b22','#314b3c','#592b73','#24407b'];
+const models = {
+  gold: { icon: '✦', colors: ['#671638','#35216a','#a1491e','#163f70','#893258','#4b2b70'], line: '#f9ca78' },
+  ice: { icon: '⟐', colors: ['#143e63','#283171','#146276','#4f2873','#234d92','#176056'], line: '#78f5ff' },
+  rose: { icon: '❋', colors: ['#821e40','#5c163f','#a84961','#551934','#752342','#a23d6e'], line: '#fdb8b5' },
+  jade: { icon: '✧', colors: ['#14644c','#254d39','#096a65','#365b34','#15685b','#385747'], line: '#d4eda0' },
+  arcade: { icon: '⚡', colors: ['#a32161','#4f27ad','#1645a1','#186c77','#9a3e22','#6639a3'], line: '#fda4ff' },
+  pearl: { icon: '◇', colors: ['#344267','#585075','#3c6074','#673f62','#4e507b','#396268'], line: '#eef0ff' }
+};
+function applyModel() {
+  wheel.dataset.skin = state.skin;
+  byId('hub').textContent = models[state.skin].icon;
+  document.querySelectorAll('[data-model]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.model === state.skin));
+  });
+}
 const presets = {
   names: 'Aziza\nSardor\nMohinur\nJasmina\nAbdurahmon\nDilafruz\nCharos\nBekzod',
   colors: '🔴 Qizil\n🔵 Ko‘k\n🟢 Yashil\n🟡 Sariq\n🟣 Binafsha\n🟠 Zarg‘aldoq',
@@ -20,9 +34,9 @@ const presets = {
 const defaults = {
   entries: presets.names, name: 'OMAD SHOU', message: 'Topdingizmi? Like bosing va obuna bo‘ling!',
   theme: 'gold', skin: 'gold', duration: '5500', format: 'wide', preset: '', sound: true,
-  lights: true, remove: false, celebrate: true, history: [], excluded: []
+  lights: true, randomSkin: false, remove: false, celebrate: true, history: [], excluded: []
 };
-const fields = ['entries','name','message','theme','skin','duration','preset','sound','lights','remove','celebrate'];
+const fields = ['entries','name','message','theme','randomSkin','duration','preset','sound','lights','remove','celebrate'];
 function read() {
   try { return { ...defaults, ...JSON.parse(localStorage.getItem(key)) }; }
   catch { return { ...defaults }; }
@@ -55,7 +69,7 @@ function eligible() { return entries().slice(0,200).filter(name => !state.exclud
 function render() {
   stage.dataset.theme = state.theme;
   stage.dataset.format = state.format;
-  wheel.dataset.skin = state.skin;
+  applyModel();
   wheel.classList.toggle('lit', state.lights);
   byId('channel').textContent = state.name;
   byId('cta').textContent = state.message;
@@ -84,7 +98,8 @@ function draw() {
   ctx.clearRect(0,0,1000,1000);
   const count = choices.length;
   const step = turn / Math.max(count,1);
-  const colors = state.skin === 'ice' ? ['#24507b','#16455c','#493e7e','#336c72','#263b67','#395f86','#452c59','#2a5e53'] : palette;
+  const model = models[state.skin];
+  const { colors } = model;
   const gradient = ctx.createRadialGradient(500,500,70,500,500,500);
   gradient.addColorStop(0,'#08000c88');
   gradient.addColorStop(.6,'#ffffff08');
@@ -99,9 +114,9 @@ function draw() {
     ctx.arc(0,0,503,a,a+step);
     ctx.closePath();
     const colorIndex = colorNames.indexOf(choices[i]);
-    ctx.fillStyle = colorIndex < 0 ? colors[i % colors.length] : colorSectors[colorIndex];
+    ctx.fillStyle = colorIndex < 0 ? colors[i % colors.length === 0 && i === count - 1 && i > 0 ? 2 : i % colors.length] : colorSectors[colorIndex];
     ctx.fill();
-    ctx.strokeStyle = '#fbe0a76b';
+    ctx.strokeStyle = model.line + '9c';
     ctx.lineWidth = count > 40 ? 1 : 3;
     ctx.stroke();
     if (!count || count > 90) continue;
@@ -116,8 +131,11 @@ function draw() {
     ctx.textAlign = flip ? 'left' : 'right';
     ctx.fillStyle = '#fff8ef';
     let label = choices[i];
+    const available = count <= 14 ? 336 : 283;
+    const scaled = Math.floor(size * available / Math.max(1,ctx.measureText(label).width));
+    ctx.font = '800 ' + Math.max(Math.min(26,size),Math.min(size,scaled)) + 'px system-ui,sans-serif';
     const chars = [...label];
-    while (ctx.measureText(label).width > 270 && chars.length > 1) {
+    while (ctx.measureText(label).width > available && chars.length > 1) {
       chars.pop();
       label = chars.join('') + '…';
     }
@@ -205,6 +223,8 @@ function finish(round) {
 }
 function animate(round) {
   running = true;
+  if (round.skin && models[round.skin]) state.skin = round.skin;
+  applyModel();
   choices = round.names;
   angle = round.start;
   draw();
@@ -239,11 +259,16 @@ function spin() {
     audio ??= new AudioContext();
     audio.resume().catch(() => {});
   }
+  if (state.randomSkin) {
+    const alternatives = Object.keys(models).filter(model => model !== state.skin);
+    state.skin = alternatives[randomInt(alternatives.length)];
+    save();
+  }
   const index = randomInt(names.length);
   const step = turn / names.length;
   const target = wrap(-(index + .18 + randomInt(65) / 100) * step);
   const end = angle + 5 * turn + wrap(target - angle);
-  const round = { names,index,start:angle,end,duration:Number(state.duration),at:Date.now() };
+  const round = { names,index,skin:state.skin,start:angle,end,duration:Number(state.duration),at:Date.now() };
   try { localStorage.setItem(signalKey,JSON.stringify(round)); } catch {}
   animate(round);
 }
@@ -270,6 +295,10 @@ for (const id of fields) byId(id).addEventListener('input', event => {
 });
 document.querySelectorAll('.modes button').forEach(button => button.addEventListener('click', () => {
   state.format = button.dataset.format;
+  update();
+}));
+document.querySelectorAll('[data-model]').forEach(button => button.addEventListener('click', () => {
+  state.skin = button.dataset.model;
   update();
 }));
 byId('spin').addEventListener('click',spin);
