@@ -1,4 +1,4 @@
-<!doctype html><html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#110c19"><title>Omad Studio</title><link rel="stylesheet" href="backgrounds.css"><link rel="stylesheet" href="studio-v3.css"><script src="studio-v3.js" defer></script></head>
+<!doctype html><html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#110c19"><title>Omad Studio</title><link rel="stylesheet" href="backgrounds.css"><link rel="stylesheet" href="studio-v3.css"><script src="studio-v4.js" defer></script></head>
 <body><header class="top"><div class="brand"><span class="logo">✺</span> OMAD <b>STUDIO</b></div><button id="present" type="button">⛶ To‘liq ekran</button></header>
 <main><section id="stage" class="stage" data-theme="gold" data-format="wide" aria-label="Baraban sahnasi">
 <div class="stage-effects" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -18,13 +18,18 @@
 <label>Baraban tarkibi<select id="mode"><option value="names">Ismlar / variantlar</option><option value="prizes">Sovrinlar</option></select></label>
 <label id="entriesLabel" for="entries">Ismlar yoki variantlar</label><textarea id="entries" rows="6" placeholder="Har qatorga bittadan"></textarea><div class="actions"><button id="shuffle">Aralashtir</button><label class="import" for="file">TXT / CSV</label><input type="file" id="file" accept=".txt,.csv,text/plain,text/csv" hidden></div><p id="feedback" role="status"></p>
 <button id="spin" class="primary">✦ &nbsp; Aylantirish <kbd>SPACE</kbd></button>
+<details open><summary>Fon musiqasi</summary><div class="settings">
+<label>Trek<select id="musicTrack"><option value="royal">Royal Reveal</option><option value="neon">Neon Drive</option><option value="pulse">Shorts Pulse</option><option value="night">Midnight Lounge</option><option value="finale">Grand Finale</option><option value="off">O‘chiq</option></select></label>
+<label>Fon ovozi <output id="musicLevel"></output><input id="musicVolume" type="range" min="0" max="100" step="1"></label>
+<label class="check"><input id="musicAuto" type="checkbox"> Aylantirganda boshlash</label><button id="musicPreview" type="button" aria-pressed="false">▶ Tinglash</button>
+</div></details>
 <details open><summary>Sahna sozlamalari</summary><div class="settings">
 <label>Yutuq uchun Telegram<input id="telegram" maxlength="33" placeholder="@username"></label><label>Yutuq uchun WhatsApp<input id="whatsapp" maxlength="28" inputmode="tel" placeholder="+998 …"></label><label class="check"><input type="checkbox" id="motion"> Shorts fon animatsiyasi</label><label>Kanal nomi<input id="name" maxlength="48"></label><label>CTA matni<input id="message" maxlength="100"></label>
 <label>Fon<select id="theme"><option value="gold">Oltin sahna</option><option value="blue">Ko‘k sahna</option><option value="green">Yashil ekran</option><option value="clear">Shaffof</option></select></label>
 
 <label>Aylanish<select id="duration"><option value="3500">3,5 soniya</option><option value="5500">5,5 soniya</option><option value="8500">8,5 soniya</option></select></label>
 <label>Shablon<select id="preset"><option value="">Tanlang</option><option value="names">Ismlar</option><option value="colors">Ranglar</option><option value="numbers">Raqamlar</option><option value="emoji">Emoji</option></select></label>
-<label class="check"><input type="checkbox" id="sound"> Ovoz</label><label class="check"><input type="checkbox" id="lights"> Gardish chiroqlari</label><label class="check"><input type="checkbox" id="remove"> <span id="removeLabel">G‘olibni chiqarish</span></label><label class="check"><input type="checkbox" id="celebrate"> Konfetti</label>
+<label class="check"><input type="checkbox" id="sound"> Baraban effektlari</label><label class="check"><input type="checkbox" id="lights"> Gardish chiroqlari</label><label class="check"><input type="checkbox" id="remove"> <span id="removeLabel">G‘olibni chiqarish</span></label><label class="check"><input type="checkbox" id="celebrate"> Konfetti</label>
 </div></details>
 <details><summary>Natijalar tarixi <span id="historyCount"></span></summary><ol id="history"></ol><div class="actions"><button id="export">CSV saqlash</button><button id="reset">Tarixni tozalash</button></div></details>
 <div class="actions"><button id="copy">OBS uchun sahna oynasi</button><button id="restore">Ro‘yxatni tiklash</button></div>
