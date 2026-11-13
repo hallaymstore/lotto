@@ -1,17 +1,25 @@
-<!doctype html><html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#110c19"><title>Omad Studio</title><link rel="stylesheet" href="backgrounds.css"><link rel="stylesheet" href="style.css"><script src="app.js" defer></script></head>
+<!doctype html><html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#110c19"><title>Omad Studio</title><link rel="stylesheet" href="backgrounds.css"><link rel="stylesheet" href="style.css?v=2"><script src="app.js?v=2" defer></script></head>
 <body><header class="top"><div class="brand"><span class="logo">✺</span> OMAD <b>STUDIO</b></div><button id="present" type="button">⛶ To‘liq ekran</button></header>
 <main><section id="stage" class="stage" data-theme="gold" data-format="wide" aria-label="Baraban sahnasi">
 <div class="stage-top"><span class="live"><i></i> <span id="sceneLabel">EFIR SAHNASI</span></span><button id="exit" hidden>×</button></div>
-<div class="show"><div id="channel" class="channel">OMAD SHOU</div><h1 id="headline">Omad barabani</h1><div class="wheel" id="wheel" data-skin="gold"><div class="rim"></div><canvas id="disc" width="1000" height="1000" aria-label="Ismlar barabani"></canvas><div class="bulbs" id="bulbs" aria-hidden="true"></div><div class="hub" aria-hidden="true">✦</div><div class="pointer" aria-hidden="true"></div></div><div id="result" class="result" role="status" aria-live="polite">Bugun omad kimga kuladi?</div><div id="cta" class="cta" hidden>Topdingizmi? Like bosing va obuna bo‘ling!</div></div>
+<div class="show"><div id="channel" class="channel">OMAD SHOU</div><h1 id="headline">Omad barabani</h1><div class="wheel" id="wheel" data-skin="gold"><div class="rim"></div><canvas id="disc" width="1000" height="1000" aria-label="Ismlar barabani"></canvas><div class="bulbs" id="bulbs" aria-hidden="true"></div><div class="hub" id="hub" aria-hidden="true">✦</div><div class="pointer" aria-hidden="true"></div></div><div id="result" class="result" role="status" aria-live="polite">Bugun omad kimga kuladi?</div><div id="cta" class="cta" hidden>Topdingizmi? Like bosing va obuna bo‘ling!</div></div>
 <div class="stage-bottom"><span>✦</span><span id="stageCount"></span></div><div id="confetti" aria-hidden="true"></div></section>
 <aside class="controls"><div class="heading"><h2>Boshqaruv</h2><span id="count"></span></div>
 <div class="modes" aria-label="Kadr formati"><button data-format="wide" aria-pressed="true">Jonli 16:9</button><button data-format="short" aria-pressed="false">Shorts 9:16</button></div>
+<fieldset class="models"><legend>Baraban modeli</legend><div class="model-grid">
+<button data-model="gold"><i aria-hidden="true">✦</i>Royal</button>
+<button data-model="ice"><i aria-hidden="true">⟐</i>Neon</button>
+<button data-model="rose"><i aria-hidden="true">❋</i>Velvet</button>
+<button data-model="jade"><i aria-hidden="true">✧</i>Jade</button>
+<button data-model="arcade"><i aria-hidden="true">⚡</i>Arcade</button>
+<button data-model="pearl"><i aria-hidden="true">◇</i>Pearl</button>
+</div><label class="check model-auto"><input type="checkbox" id="randomSkin"> Har aylanishda boshqa model</label></fieldset>
 <label for="entries">Ismlar yoki variantlar</label><textarea id="entries" rows="6" placeholder="Har qatorga bittadan"></textarea><div class="actions"><button id="shuffle">Aralashtir</button><label class="import" for="file">TXT / CSV</label><input type="file" id="file" accept=".txt,.csv,text/plain,text/csv" hidden></div><p id="feedback" role="status"></p>
 <button id="spin" class="primary">✦ &nbsp; Aylantirish <kbd>SPACE</kbd></button>
 <details open><summary>Sahna sozlamalari</summary><div class="settings">
 <label>Kanal nomi<input id="name" maxlength="48"></label><label>CTA matni<input id="message" maxlength="100"></label>
 <label>Fon<select id="theme"><option value="gold">Oltin sahna</option><option value="blue">Ko‘k sahna</option><option value="green">Yashil ekran</option><option value="clear">Shaffof</option></select></label>
-<label>Baraban<select id="skin"><option value="gold">Oltin</option><option value="ice">Kumush</option><option value="rose">Atirgul oltin</option></select></label>
+
 <label>Aylanish<select id="duration"><option value="3500">3,5 soniya</option><option value="5500">5,5 soniya</option><option value="8500">8,5 soniya</option></select></label>
 <label>Shablon<select id="preset"><option value="">Tanlang</option><option value="names">Ismlar</option><option value="colors">Ranglar</option><option value="numbers">Raqamlar</option><option value="emoji">Emoji</option></select></label>
 <label class="check"><input type="checkbox" id="sound"> Ovoz</label><label class="check"><input type="checkbox" id="lights"> Gardish chiroqlari</label><label class="check"><input type="checkbox" id="remove"> G‘olibni chiqarish</label><label class="check"><input type="checkbox" id="celebrate"> Konfetti</label>
